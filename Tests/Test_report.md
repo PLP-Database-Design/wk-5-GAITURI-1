@@ -53,7 +53,7 @@ Based on the prioritization, the team has agreed to **defer testing for R-06** t
 
 - Tested Risks Percent: 
 R-01, R-02, R-03, R-04, R-05 <br>
--  Deferred Risks: 
+-  Deferred Risks: R-06
 
 - Untested Risks Percent: (5 Tested Risks / 6 Total Risks) = **83.3%**
 

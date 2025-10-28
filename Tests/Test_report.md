@@ -16,7 +16,7 @@ and `reset`; Does the `Leaderboard` keep score as advertised
 
 **Out of Scope:**
 - Test the bonus count against points awarded.
-- Test the Hin button for point deduction.
+- Test the Hint button for point deduction.
 
 ### Tools & Resources
 
@@ -36,7 +36,8 @@ and `reset`; Does the `Leaderboard` keep score as advertised
 ## Risk Analysis
 A risk analysis was performed on the new features to identify potential failures. Risks are rated on **Likelihood (L)** and **Impact (I)** . **Priority (P)** is L * I.
 
-| ID | Feature | Risk Description | Likleyhood | Impact | Priority | Mitigation Strategy (Test Focus) |
+<<<<<<< HEAD
+| ID | Feature | Risk Description | L | I | P | Priority | Mitigation Strategy (Test Focus) |
 |---|---|---|:---:|:---:|:---:|:---:|---|
 | **R-01** | Bonus Round | **Functional:** The `score *= 2` logic is applied *before* the points for the 3rd puzzle are added, or it triggers on the wrong puzzle number (e.g., #2 or #4). | High | High |  | **High** | Design multi-step test cases to solve puzzles 1, 2, and 3, recording the score at each step to validate the exact bonus calculation. |
 | **R-02** | Reset Game | **State/Usability:** The "Reset" button clears the score but does *not* load a new puzzle, leaving the game in an unplayable "limbo" state until the user *also* clicks "New Puzzle". | High | High |  | **High** | Perform flow testing on the "Reset" button, verifying the game state immediately after reset and the number of clicks required to play again. |
@@ -44,7 +45,18 @@ A risk analysis was performed on the new features to identify potential failures
 | **R-04** | Leaderboard | **Functional:** The leaderboard fails at its boundary, either failing to replace the 3rd-place score with a new, higher score, or incorrectly saving 4 scores. | Low | High |  | **High** | Design a specific boundary test: achieve scores (10, 20, 30), then achieve a 4th score (e.g., 40) and a 5th score (e.g., 5) to validate the `slice(0,3)` logic. |
 | **R-05** | Leaderboard | **Functional:** Scores are sorted alphabetically (e.g., `100` < `20`) instead of numerically, or in ascending order instead of descending. | Low | High |  | **Medium** | Design a test case using scores that would fail a string-sort (e.g., 100, 5, 20) and verify the final order is `100, 20, 5`. |
 | **R-06** | Game Core | **Non-Functional (UX):** The `newPuzzle()` function picks words randomly with no memory, allowing the same puzzle to be shown multiple times in a row, leading to poor user experience. | High | Low |  | **Medium** | **(DEFERRED)** - This is a valid UX issue, but due to its low impact on core functionality, it is deferred to prioritize the high-risk functional features. |
-| **R-07** | Resposiveness | **Non-Functional (UX):** The game should be availabke for play across different devices. | Low | medium |  | **Medium** | **(DEFERRED)** - Check whether the website behaves on different devices, i.e Tablets, mobile, or TV.|
+
+=======
+| ID | Feature | Risk Description | Likelihood | Impact | Priority | Mitigation Strategy (Test Focus) |
+|----|-------|---------|--------|------|--------| -------|
+| **R-01** | Bonus Round | **Functional:** The `score *= 2` logic is applied *before* the points for the 3rd puzzle are added, or it triggers on the wrong puzzle number (e.g., #2 or #4). | High | High | **High** | Design multi-step test cases to solve puzzles 1, 2, and 3, recording the score at each step to validate the exact bonus calculation. |
+| **R-02** | Reset Game | **State/Usability:** The "Reset" button clears the score but does *not* load a new puzzle, leaving the game in an unplayable "limbo" state until the user *also* clicks "New Puzzle". | High | High | **High** | Perform flow testing on the "Reset" button, verifying the game state immediately after reset and the number of clicks required to play again. |
+| **R-03** | Leaderboard | **Compatibility:** `localStorage` fails to write or read in private/incognito browsing modes, or on different browsers (e.g., Firefox, Edge), causing the leaderboard to fail. | Low | High | **High** | Execute all leaderboard test cases (sorting, boundaries) in a secondary environment (e.g., Chrome Incognito) to verify data persistence. |
+| **R-04** | Leaderboard | **Functional:** The leaderboard fails at its boundary, either failing to replace the 3rd-place score with a new, higher score, or incorrectly saving 4 scores. | Low | High | **High** | Design a specific boundary test: achieve scores (10, 20, 30), then achieve a 4th score (e.g., 40) and a 5th score (e.g., 5) to validate the `slice(0,3)` logic. |
+| **R-05** | Leaderboard | **Functional:** Scores are sorted alphabetically (e.g., `100` < `20`) instead of numerically, or in ascending order instead of descending. | Low | High  | **Medium** | Design a test case using scores that would fail a string-sort (e.g., 100, 5, 20) and verify the final order is `100, 20, 5`. |
+| **R-06** | Game Core | **Non-Functional (UX):** The `newPuzzle()` function picks words randomly with no memory, allowing the same puzzle to be shown multiple times in a row, leading to poor user experience. | High | Low  | **Medium** | **(DEFERRED)** - This is a valid UX issue, but due to its low impact on core functionality, it is deferred to prioritize the high-risk functional features. |
+| **R-07** | Resposiveness | **Non-Functional (UX):** The game should be availabke for play across different devices. | Low | medium | **Medium** | **(DEFERRED)** - Check whether the website behaves on different devices, i.e Tablets, mobile, or TV.|
+>>>>>>> 2b0051609c55a8ebdf04de31dd2583e2aa18727f
 
 
 
@@ -54,7 +66,11 @@ Based on the prioritization, the team has agreed to **defer testing for R-06** t
 
 - Tested Risks Percent: 
 R-01, R-02, R-03, R-04, R-05 <br>
+<<<<<<< HEAD
+-  Deferred Risks: 
+=======
 -  Deferred Risks: R-06
+>>>>>>> 2b0051609c55a8ebdf04de31dd2583e2aa18727f
 
 - Untested Risks Percent: (5 Tested Risks / 6 Total Risks) = **83.3%**
 
@@ -63,21 +79,28 @@ R-01, R-02, R-03, R-04, R-05 <br>
 | ID | Feature | Objective | Expected Result | Actual Result | Status | Risk Link |
 |----|----------|------------|-----------------|----------------|---------|------------|
 | **TC-01** | Bonus Round | Risk-Based (R-01 High): Validate score doubling occurs after the points for the 3rd puzzle are added. | Solve 3 puzzles (10 pts each). Score after puzzle 1: 10. After puzzle 2: 20. After puzzle 3 (Bonus): (20+10)×2=60. |  |  | R-01 |
+<<<<<<< HEAD
 | **TC-02** | Reset Game | Risk-Based (R-02 High): Verify that clicking "Reset" leaves the game in an unplayable "limbo" state. | Click "Reset Game". Actual Result: Score is 0, Solved is 0. Scrambled word/hint area is blank. Expected Failure: The user must also click "New Puzzle" to start a game. |  |  | R-02 |
+=======
+| **TC-02** | Reset Game | Risk-Based (R-02 High): Verify that clicking "Reset" leaves the game in an unplayable "limbo" state. | Click "Reset Game". Actual Result: Score is 0, Solved is 0. Scrambled word/hint area is blank. Expected Failure: The user must also click "New Puzzle" to start a game. |  |  ![Missing requirement.](Tests/images/reset_missing_fn.png)| R-02 |
+>>>>>>> 2b0051609c55a8ebdf04de31dd2583e2aa18727f
 | **TC-03** | Leaderboard | Risk-Based (R-03 High): Verify data persistence of the leaderboard in Incognito/Private mode. | In Chrome Incognito, achieve a score of 10. Close and reopen a new Incognito window. The score (10) should not be present on the leaderboard. |  |  | R-03 |
 | **TC-04** | Leaderboard | Risk-Based (R-04 High): Validate boundary logic: only top 3 scores are kept, and a new high score replaces the lowest of the 3. | Enter scores: 10, 20, 30. Leaderboard: 30, 20, 10. Enter score 40. Leaderboard: 40, 30, 20 (10 is removed). Enter score 5. Leaderboard: 40, 30, 20 (5 is ignored). |  |  | R-04 |
 | **TC-05** | Leaderboard | Risk-Based (R-05 Medium): Verify scores are sorted numerically in descending order, not alphabetically. | Enter scores 100, 5, and 20. The leaderboard must display: 100, 20, 5. (Alphabetical would be: 100, 20, 5 or 5, 20, 100 if the logic fails to compare number strings correctly). |  |  | R-05 |
 | **TC-06** | Game Core | Negative Test: Submit a guess with leading/trailing whitespace. | Enter guess ' word ' (with spaces) for the word word. The guess should be correctly validated after trimming, resulting in a Correct! message and score update. |  |  |  |
 | **TC-07** | Game Core | Negative Test: Submit an incorrect guess when a puzzle is active. | Enter an incorrect word (e.g., 'table') when a puzzle is displayed. Score and solved count must remain unchanged. Message: "Incorrect, try again!" and input field is selected for re-entry. |  |  |  |
 | **TC-08** | Usability | Usability Test: Confirm keyboard shortcut and input focus behavior for efficient play. | On page load, the input field should automatically gain focus. Hitting the Enter key while the input field is focused should trigger the checkGuess function. |  |  |  |
+<<<<<<< HEAD
+=======
 | **TC-09** | Responsiveness | Responsiveness Test: Confirm thhe website behaves as expected  acrross different screen sizes. | The UI should still display both game section and leaderboard in the expected behavior irregardless of the screen size. |  |  |  |
+>>>>>>> 2b0051609c55a8ebdf04de31dd2583e2aa18727f
 
 
 ## Defects
 
 | ID | Issue Title | Severity | Risk ID | Status | GitHub Link |
 |----|-------------|----------|---------|--------|-------------|
-| | | | | | |
+| |There is no call to `newPuzzle()` inside this function.  ||**TC-02** - **R-02** | | |
 | | | | | | |
 | | | | | | |
 | | | | | | |

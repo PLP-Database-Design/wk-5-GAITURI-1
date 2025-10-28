@@ -36,8 +36,8 @@ and `reset`; Does the `Leaderboard` keep score as advertised
 ## Risk Analysis
 A risk analysis was performed on the new features to identify potential failures. Risks are rated on **Likelihood (L)** and **Impact (I)** . **Priority (P)** is L * I.
 
-| ID | Feature | Risk Description | Likleyhood | Impact | Priority | Mitigation Strategy (Test Focus) |
-|---|---|---|:---:|:---:|:---:|:---:|---|
+| ID | Feature | Risk Description | Likelihood | Impact | Priority | Mitigation Strategy (Test Focus) |
+|----|-------|---------|--------|------|--------| -------|
 | **R-01** | Bonus Round | **Functional:** The `score *= 2` logic is applied *before* the points for the 3rd puzzle are added, or it triggers on the wrong puzzle number (e.g., #2 or #4). | High | High |  | **High** | Design multi-step test cases to solve puzzles 1, 2, and 3, recording the score at each step to validate the exact bonus calculation. |
 | **R-02** | Reset Game | **State/Usability:** The "Reset" button clears the score but does *not* load a new puzzle, leaving the game in an unplayable "limbo" state until the user *also* clicks "New Puzzle". | High | High |  | **High** | Perform flow testing on the "Reset" button, verifying the game state immediately after reset and the number of clicks required to play again. |
 | **R-03** | Leaderboard | **Compatibility:** `localStorage` fails to write or read in private/incognito browsing modes, or on different browsers (e.g., Firefox, Edge), causing the leaderboard to fail. | Low | High |  | **High** | Execute all leaderboard test cases (sorting, boundaries) in a secondary environment (e.g., Chrome Incognito) to verify data persistence. |
